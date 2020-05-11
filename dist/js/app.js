@@ -21,6 +21,12 @@ function Gallery(gallery) {
     modal.classList.add('open');
   }
 
+  // close modal
+  function closeModal() {
+    modal.classList.remove('open');
+    // TODO: add event listeners for click and keyboard
+  }
+
   // show images
   function showImage(el) {
     if (!el) {
