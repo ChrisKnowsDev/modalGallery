@@ -5,13 +5,11 @@ function Gallery(gallery) {
 
   // select the elements we need
   const images = Array.from(gallery.querySelectorAll('img'));
-  console.log(images);
   const modal = document.querySelector('.modal');
   const prevBtn = modal.querySelector('.prev');
   const nextBtn = modal.querySelector('.next');
   let currentImage;
 
-  // open modal
   function openModal() {
     console.info('Opening modal!');
     // check to see if modal is already open
@@ -19,29 +17,33 @@ function Gallery(gallery) {
       console.info('modal already open');
     }
     modal.classList.add('open');
+
+    // event listeners to be bound when we open the modal:
+    window.addEventListener('keyup', handleEsckeyPress);
+    nextBtn.addEventListener('click', showNextImage);
+    prevBtn.addEventListener('click', showPrevImage);
   }
 
-  // close modal
   function closeModal() {
     modal.classList.remove('open');
     // TODO: add event listeners for click and keyboard
+    window.removeEventListener('keyup', handleEsckeyPress);
+    nextBtn.removeEventListener('click', showNextImage);
+    prevBtn.removeEventListener('click', showPrevImage);
   }
 
-  // handle click outside modal event
   function handleModalClickOutside(e) {
-    console.log('target:', e.target);
-    console.log('currentTarget:', e.currentTarget);
     if (e.target === e.currentTarget) {
       closeModal();
     }
   }
 
-  // handle esc key press to close modal
   function handleEsckeyPress(e) {
-    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Escape') return closeModal();
+    if (e.key === 'ArrowRight') return showNextImage();
+    if (e.key === 'ArrowLeft') return showPrevImage();
   }
 
-  // show images
   function showImage(el) {
     if (!el) {
       console.info('no image to show');
@@ -54,13 +56,20 @@ function Gallery(gallery) {
     openModal();
   }
 
+  function showNextImage() {
+    showImage(currentImage.nextElementSibling || gallery.firstElementChild);
+  }
+
+  function showPrevImage() {
+    showImage(currentImage.previousElementSibling || gallery.lastElementChild);
+  }
+
   // These are our event listeners
   images.forEach(image =>
     image.addEventListener('click', e => showImage(e.currentTarget))
   );
 
   modal.addEventListener('click', handleModalClickOutside);
-  window.addEventListener('keyup', handleEsckeyPress);
 }
 
 const gallery1 = Gallery(document.querySelector('.gallery1'));
