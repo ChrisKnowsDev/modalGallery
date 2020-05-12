@@ -10,6 +10,12 @@ function Gallery(gallery) {
   this.prevBtn = this.modal.querySelector('.prev');
   this.nextBtn = this.modal.querySelector('.next');
 
+  // bind our methods to the instance when we need them
+  this.showNextImage = this.showNextImage.bind(this);
+  this.showPrevImage = this.showPrevImage.bind(this);
+  this.handleEsckeyPress = this.handleEsckeyPress.bind(this);
+  this.handleModalClickOutside = this.handleModalClickOutside.bind(this);
+
   // These are our event listeners
   this.images.forEach(image =>
     image.addEventListener('click', e => this.showImage(e.currentTarget))
@@ -71,6 +77,7 @@ Gallery.prototype.showImage = function(el) {
 };
 
 Gallery.prototype.showNextImage = function() {
+  console.log(this);
   this.showImage(
     this.currentImage.nextElementSibling || this.gallery.firstElementChild
   );
