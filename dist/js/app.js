@@ -27,6 +27,20 @@ function Gallery(gallery) {
     // TODO: add event listeners for click and keyboard
   }
 
+  // handle click outside modal event
+  function handleModalClickOutside(e) {
+    console.log('target:', e.target);
+    console.log('currentTarget:', e.currentTarget);
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  }
+
+  // handle esc key press to close modal
+  function handleEsckeyPress(e) {
+    if (e.key === 'Escape') closeModal();
+  }
+
   // show images
   function showImage(el) {
     if (!el) {
@@ -40,9 +54,13 @@ function Gallery(gallery) {
     openModal();
   }
 
+  // These are our event listeners
   images.forEach(image =>
     image.addEventListener('click', e => showImage(e.currentTarget))
   );
+
+  modal.addEventListener('click', handleModalClickOutside);
+  window.addEventListener('keyup', handleEsckeyPress);
 }
 
 const gallery1 = Gallery(document.querySelector('.gallery1'));
